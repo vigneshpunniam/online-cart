@@ -1,0 +1,33 @@
+/* Add application styles & imports to this file! */
+@import 'jasmine-core/lib/jasmine-core/jasmine.css';
+body {
+  box-sizing: border-box;
+  margin: 0;
+  font-family: 'Roboto';
+}
+
+*{
+  font-family: 'Roboto';
+}
+
+button{
+    background: #2874f0;
+    box-shadow: 0 1px 2px 0 rgba(0,0,0,.2);
+    border: none;
+    cursor: pointer;
+    width: 100px;
+    height: 25px;
+    color: #fff;
+    font-family: 'Roboto' !important;
+    outline: none;
+}
+
+button.primary{
+  background: white;
+  color: black;
+  font-family: bold;
+}
+
+button:hover{
+  opacity: 0.8;
+}

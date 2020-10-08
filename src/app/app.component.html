@@ -1,0 +1,63 @@
+<app-header (searchProducts)="onSearchProducts($event)" (addProduct)="onAddProduct()"></app-header>
+<ng-container *ngIf="showAddProduct">
+	<form class="app-product-form" name="form" (ngSubmit)="f.form.valid && addProduct()" #f="ngForm" novalidate>
+    <h4>Product Name</h4>
+		<input type="text" placeholder="Product Name" name="productName" [(ngModel)]="product.productName" #productName="ngModel" required />
+		<div *ngIf="f.submitted && productName.invalid" class="invalid-feedback">
+			<div *ngIf="productName.errors.required">Name is required</div>
+		</div>
+    <h4>Available Quantity</h4>
+		<input class="quantity" type="number" placeholder="Quantity" name="quantity" [(ngModel)]="product.availableQuantity" #quantity="ngModel" required />
+		<div *ngIf="f.submitted && quantity.invalid" class="invalid-feedback">
+			<div *ngIf="quantity.errors.required">Quantity is required</div>
+		</div>
+		<div class="form-footer">
+			<button>Add</button>
+			<button class="primary" (click)="$event.stopPropagation();showAddProduct = false">Cancel</button>
+		</div>
+	</form>
+</ng-container>
+<ng-container *ngFor="let product of products">
+	<div class="product" *ngIf="product.productName && product.availableQuantity">
+		<span>{{product.productName}}</span>
+		<div>
+			<ng-container *ngIf="!product.ordered">
+				<div>Stocks left {{product.availableQuantity}},</div>
+				<div>Qty:</div>
+				<input type="number" [(ngModel)]="product.quantity"/>
+				<button (click)="orderProduct(product)">order</button>
+			</ng-container>
+			<ng-container *ngIf="product.ordered">
+				<button class="primary" style="width:130px" (click)="onShowOrderDetail(product.orderDetail)">Show order detail</button>
+			</ng-container>
+		</div>
+	</div>
+</ng-container>
+<div class="pop-up-mask" *ngIf="showPopup || orderDetailPopup" (click)="showPopup = false; orderDetailPopup =false; orderDetail = null"></div>
+<div class="pop-up" *ngIf="showPopup">
+	<div class="header">
+		<h4>Warning</h4>
+		<i class="material-icons" (click)="showPopup = false">close</i>
+	</div>
+	<div class="cart-product">
+    {{warning}}
+	</div>
+</div>
+<div class="pop-up" *ngIf="orderDetailPopup && orderDetail">
+	<div class="header">
+		<h4>Order Detail</h4>
+		<i class="material-icons" (click)="orderDetailPopup = false; orderDetail = null">close</i>
+	</div>
+	<div class="cart-product">
+   orderId:  {{orderDetail.orderId}}
+	</div>
+  	<div class="cart-product">
+   productId:  {{orderDetail.productId}}
+	</div>
+  	<div class="cart-product">
+   customerId:  {{orderDetail.customerId}}
+	</div>
+  	<div class="cart-product">
+   quantity:  {{orderDetail.quantity}}
+	</div>
+</div>
